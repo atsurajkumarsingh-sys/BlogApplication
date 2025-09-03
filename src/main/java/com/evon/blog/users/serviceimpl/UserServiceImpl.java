@@ -53,4 +53,20 @@ class UserServiceImpl implements UserService {
         }
         userRepository.deleteById(userId);
     }
+
+    @Override
+    public Optional<User> getUserByName(String name) {
+        if(userRepository.findByName(name).isEmpty()) {
+            throw new ResourceNotFoundException("Record not found");
+        }
+        return userRepository.findByName(name);
+    }
+
+    @Override
+    public Optional<User> getUserByEmail(String email) {
+        if(userRepository.findByEmail(email).isEmpty()) {
+            throw new ResourceNotFoundException("Record not found");
+        }
+        return userRepository.findByEmail(email);
+    }
 }

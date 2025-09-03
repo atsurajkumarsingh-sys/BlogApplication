@@ -4,10 +4,14 @@ import com.evon.blog.blogs.entity.Blog;
 import com.evon.blog.blogs.service.BlogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,6 +45,34 @@ public class BlogController {
     public ResponseEntity<Page<Blog>> getAllBlogs(@RequestParam(defaultValue = "0") int page,
                                   @RequestParam(defaultValue = "5") int size){
         Page<Blog> blogs =  blogService.getAllBlog(page, size);
+        return new ResponseEntity<>(blogs, HttpStatus.OK);
+    }
+
+    @GetMapping("/api/getBlogByTitle")
+    ResponseEntity<Page<Blog>> getBlogByTitle(@RequestParam String title, @RequestParam(defaultValue = "0") int page,
+                                  @RequestParam(defaultValue = "5") int size) {
+        Page<Blog> blogs = blogService.getBlogByTitle(title, page, size);
+        return new ResponseEntity<>(blogs, HttpStatus.OK);
+    }
+
+    @GetMapping("/api/getBlogByCreatedDate")
+    ResponseEntity<Page<Blog>> getBlogByCreatedDate(@RequestParam("createdDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDateTime createdDate, @RequestParam(defaultValue = "0") int page,
+                                                    @RequestParam(defaultValue = "5") int size){
+        Page<Blog> blogs = blogService.getBlogByCreatedDate(createdDate, page, size);
+        return new ResponseEntity<>(blogs, HttpStatus.OK);
+    }
+
+    @GetMapping("/api/getBlogByModifiedDate")
+    ResponseEntity<Page<Blog>> getBlogByUpdatedDateDate(@RequestParam("updatedDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDateTime updatedDate, @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size){
+        Page<Blog> blogs = blogService.getBlogByUpdatedDateDate(updatedDate, page, size);
+        return new ResponseEntity<>(blogs, HttpStatus.OK);
+    }
+
+    @GetMapping("/api/getBlogByUserId")
+    ResponseEntity<Page<Blog>> getBlogByUserId(@RequestParam Long userId, @RequestParam(defaultValue = "0") int page,
+                @RequestParam(defaultValue = "5") int size){
+        Page<Blog> blogs = blogService.getBlogByUserId(userId, page, size);
         return new ResponseEntity<>(blogs, HttpStatus.OK);
     }
 }

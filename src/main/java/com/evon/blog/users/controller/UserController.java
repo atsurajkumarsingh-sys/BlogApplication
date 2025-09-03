@@ -38,4 +38,14 @@ public class UserController {
     public void deleteUser(@RequestParam Long id){
         userService.deleteUser(id);
     }
+
+    @GetMapping("/api/getUserByName")
+    public Optional<User> getUserByName(@RequestParam String name){
+        return userService.getUserByName(name);
+    }
+
+    @GetMapping("/api/getUserByEmail")
+    public Optional<User> getUserByEmail(@RequestParam String email){
+        return userService.getUserByEmail(email);
+    }
 }
